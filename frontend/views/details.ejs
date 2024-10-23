@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt Tafsilotlari</title>
+</head>
+<body>
+    <h1>Sizning Receipt Tafsilotlari</h1>
+    <div id="receipt-details"></div>
+    
+    <script>
+        // ID ni olish
+        const receiptId = "<%= receiptId %>";
+
+        async function fetchReceiptDetails() {
+            try {
+                const response = await fetch(`http://localhost:1816/api/v1/receipts/${receiptId}`);
+                if (response.ok) {
+                    const receipt = await response.json();
+                    const detailsDiv = document.getElementById('receipt-details');
+                    detailsDiv.innerHTML = `
+                        <h3>Ovqat nomi: ${receipt.meal.name}</h3>
+                        <p><strong>Ovqat haqida:</strong> ${receipt.meal.description}</p>
+                        <p><strong>Miqdor:</strong> ${receipt.quantity}</p>
+                        <p><strong>Qabul qilingan sana:</strong> ${new Date(receipt.createdAt).toLocaleDateString()}</p>
+                        <img src="${receipt.meal.image}" alt="${receipt.meal.name}">
+                    `;
+                } else {
+                    console.error('Receipt not found:', response.status);
+                }
+            } catch (error) {
+                console.error('Error fetching receipt:', error);
+            }
+        }
+
+        fetchReceiptDetails(); // Ma'lumotlarni yuklash
+    </script>
+</body>
+</html>

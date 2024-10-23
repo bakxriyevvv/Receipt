@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kirish</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .form-container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #4B61D1;
+            color: white;
+        }
+
+        .user-area {
+            display: none; /* Dastlab yashirin bo'ladi */
+        }
+
+        .profile-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .login-section {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo"></div>
+            <h1>All Receipts</h1>
+            <div class="user-area">
+                <div class="profile-section">
+                    <img src="" alt="Foydalanuvchi rasmi" id="profile-image" class="profile-image" />
+                    <h4 id="user-name" class="user-name">Foydalanuvchi</h4>
+                </div>
+            </div>
+            <div class="login-section">
+                <a href="/api/v1/auth/register" class="register-link">Ro'yxatdan o'tish</a>
+                <a href="/api/v1/auth/login" class="login-link">Kirish</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="container">
+        <div class="form-container">
+            <h2>Kirish</h2>
+            <form id="login-form">
+                <div class="mb-3">
+                    <input type="email" name="email" class="form-control" placeholder="Email" required>
+                </div>
+                <div class="mb-3">
+                    <input type="tel" name="phone" class="form-control" placeholder="Telefon raqami (masalan: +998901234567)" required>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Kirish</button>
+                </div>
+                <div class="error-message" id="error-message"></div>
+            </form>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const formData = {
+                email: this.email.value.toLowerCase(), // email kichik harflarda
+                phone: this.phone.value,
+            };
+
+            try {
+                const response = await fetch('/api/v1/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Serverda xatolik yuz berdi');
+                }
+                console.log(formData)
+                const data = await response.json();
+                console.log(data);
+
+                if (data.success) {
+                    // Foydalanuvchi muvaffaqiyatli kirdi
+                    document.getElementById('profile-image').src = `/api/v1/uploads/${data.profileImage || 'default.png'}`;
+                    document.getElementById('user-name').textContent = data.username;
+                    console.log(data)
+                    // Foydalanuvchi qismini ko'rsatish
+                    document.querySelector('.user-area').style.display = 'flex';
+
+                    // Kirish linkini yashirish
+                    document.querySelector('.login-section').style.display = 'none';
+
+                    // Foydalanuvchini bosh sahifaga yo'naltirish
+                    window.location.href = '/api/v1/main';
+                } else {
+                    document.getElementById('error-message').textContent = data.message;
+                }
+            } catch (error) {
+                document.getElementById('error-message').textContent = error.message || 'Server bilan ulanishda xatolik yuz berdi.';
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,241 @@
+{
+	"info": {
+		"_postman_id": "e9e6762c-8baf-4d9e-bf72-342b5e6d8af1",
+		"name": "DesertApp API",
+		"description": "Postman collection for DesertApp API with CRUD operations for Users, Admins, Desert Recipes and Ingredients.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"newuser\", \"password\": \"password123\", \"role\": \"user\"}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/users",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["users"]
+						}
+					}
+				},
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:3000/users",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["users"]
+						}
+					}
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"updateduser\", \"password\": \"newpassword\", \"role\": \"admin\"}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/:id",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["users", ":id"]
+						}
+					}
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"url": {
+							"raw": "http://localhost:3000/users/:id",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["users", ":id"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Admins",
+			"item": [
+				{
+					"name": "Create Admin",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"adminuser\", \"password\": \"adminpassword\", \"role\": true}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/admins",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["admins"]
+						}
+					}
+				},
+				{
+					"name": "Get All Admins",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:3000/admins",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["admins"]
+						}
+					}
+				},
+				{
+					"name": "Update Admin",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"updatedadmin\", \"password\": \"newadminpassword\", \"role\": true}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/admins/:id",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["admins", ":id"]
+						}
+					}
+				},
+				{
+					"name": "Delete Admin",
+					"request": {
+						"method": "DELETE",
+						"url": {
+							"raw": "http://localhost:3000/admins/:id",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["admins", ":id"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Desert Recipes",
+			"item": [
+				{
+					"name": "Create Desert Recipe",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Cake\", \"description\": \"Delicious cake\", \"image\": \"image-url\", \"video\": \"video-url\", \"preparationSteps\": \"Step 1, Step 2\", \"isAllowed\": true, \"userId\": 1}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/desert_recipes",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["desert_recipes"]
+						}
+					}
+				},
+				{
+					"name": "Get All Desert Recipes",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:3000/desert_recipes",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["desert_recipes"]
+						}
+					}
+				},
+				{
+					"name": "Update Desert Recipe",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Updated Cake\", \"description\": \"Updated description\", \"image\": \"new-image-url\", \"video\": \"new-video-url\", \"preparationSteps\": \"New steps\", \"isAllowed\": false, \"userId\": 1}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/desert_recipes/:id",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["desert_recipes", ":id"]
+						}
+					}
+				},
+				{
+					"name": "Delete Desert Recipe",
+					"request": {
+						"method": "DELETE",
+						"url": {
+							"raw": "http://localhost:3000/desert_recipes/:id",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["desert_recipes", ":id"]
+						}
+					}
+				}
+			]
+		}
+    ]
+}

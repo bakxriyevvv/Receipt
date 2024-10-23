@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt Site</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #F0F0F0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px; /* Bo'shliqlar kengaytirildi */
+            background-color: #4B61D1;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Header uchun yengil soyalar */
+        }
+
+        .header-container h1 {
+            margin: 0;
+            font-size: 28px; /* Katta font */
+            color: white;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            background-color: #FFAE00;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .user-area:hover {
+            background-color: #121545;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+        }
+
+        .login-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            background-color: #2a2b5b;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .login-link:hover {
+            background-color: #FFAE00;
+            color: #2a2b5b;
+        }
+
+        .login-link i {
+            margin-left: 10px; /* Icon va text o'rtasidagi bo'sh joy */
+        }
+
+        .navbar {
+            background-color: #2a2b5b;
+            padding: 10px 0;
+        }
+
+        .navbar ul {
+            display: flex;
+            justify-content: center;
+        }
+
+        .category-item {
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .category-item:hover {
+            background-color: #FFAE00;
+        }
+
+        .footer-container {
+            background-color: #2a2b5b;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .receipts-section {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .receipts-section h2 {
+            font-size: 28px;
+            color: #4B61D1;
+            margin-bottom: 20px;
+        }
+
+        .receipts-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .receipt-item {
+            background-color: white;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            text-align: center;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .receipt-item:hover {
+            transform: scale(1.05);
+            background-color: #FFAE00;
+            color: white;
+        }
+
+        .receipt-item img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            max-height: 150px;
+            object-fit: cover;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 600px;
+            max-width: 90%;
+            text-align: left;
+            position: relative;
+            overflow-y: auto;
+            max-height: 80%;
+        }
+
+        .modal-content img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .modal-video {
+            width: 100%;
+            display: block;
+        }
+
+        #user {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+            border: 2px solid #4B61D1;
+        }
+
+        #user-name {
+            font-size: 16px;
+            color: #2a2b5b;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #FFAE00;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .user-profile img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .user-profile h4 {
+            margin: 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .user-profile-image {
+            width: 100px;
+            height: 100px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .user-profile-image:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <!-- <img src="./logo.jpg" alt="Logo"> -->
+            </div>
+            <h1>All Receipts</h1>
+            <div class="user-area">
+                <a href="/api/v1/auth/login" class="login-link">Kirish <i class="fas fa-sign-in-alt"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <section class="receipts-section">
+        <h2>Bizda mavjud Receiptlar</h2>
+        <div class="receipts-list">
+            <div class="filters">
+                <select id="category-filter">
+                    <option value="">Barcha Kategoriyalar</option>
+                    <!-- Kategoriyalar dinamik ravishda qo'shiladi -->
+                </select>
+    
+                <select id="user-filter">
+                    <option value="">Barcha Foydalanuvchilar</option>
+                    <!-- Foydalanuvchilar dinamik ravishda qo'shiladi -->
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal qismi -->
+    <div class="modal">
+        <div class="modal-content">
+            <button class="close-btn">Yopish</button>
+            <img id="modal-meal-image" alt="Taom rasmi" />
+            <div class="user-info">
+                <img id="user" alt="userning rasmi" />
+                <h3 id="user-name"></h3>
+            </div>
+            <h2 id="modal-meal-name"></h2>
+            <p id="modal-meal-category"></p>
+            <p id="modal-product-name"></p>
+            <p id="modal-meal-description"></p>
+            <p id="modal-user-phone"></p>
+            <p id="modal-user-email"></p>
+            <video class="modal-video" id="modal-meal-video" controls>
+                <source id="modal-meal-video-source" src="" type="video/mp4">
+                Sizning brauzeringiz video formatini qo'llab-quvvatlamaydi.
+            </video>
+        </div>
+    </div>
+
+    <footer class="footer-container">
+        <p>&copy; 2024 Sizning Kompaniyangiz Nomi. Barcha huquqlar himoyalangan.</p>
+    </footer>
+</body>
+    <script type="module">
+        async function loadReceipts() {
+            try {
+                const response = await fetch('/api/v1/receipts');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const receipts = await response.json();
+                renderReceipts(receipts);
+            } catch (error) {
+                console.error('There was a problem with the fetch operation:', error);
+            }
+        }
+
+        function renderReceipts(receipts) {
+    const receiptsList = document.querySelector('.receipts-list');
+    const modal = document.querySelector('.modal');
+    const user = document.getElementById('user');
+    const userName = document.getElementById('user-name');
+    const modalMealName = document.getElementById('modal-meal-name');
+    const modalMealImage = document.getElementById('modal-meal-image');
+    const modalMealDescription = document.getElementById('modal-meal-description');
+    const modalMealCategory = document.getElementById('modal-meal-category');
+    const modalUserPhone = document.getElementById('modal-user-phone');
+    const modalUserEmail = document.getElementById('modal-user-email');
+    const modalProductName = document.getElementById('modal-product-name');
+    const modalMealVideo = document.getElementById('modal-meal-video'); // video element
+    const closeModalBtn = document.querySelector('.close-btn');
+
+    receiptsList.innerHTML = '';
+    receipts.forEach(receipt => {
+        const receiptItem = document.createElement('div');
+        receiptItem.className = 'receipt-item';
+        receiptItem.innerHTML = `
+            <div class="user-profile">
+                <img src="${receipt.meal.user.image}" alt="${receipt.meal.user.name}" class="user-profile-image" />
+                <h4 class="username">${receipt.meal.user.name}</h4>
+                </div>
+                <p>${receipt.meal.category.name}</p>
+            <img src="${receipt.meal.image}" alt="${receipt.meal.name}" />
+            <h3>Taom nomi: ${receipt.meal.name}</h3>
+            <p>Tayyorlash usulini ko'rish uchun ustiga bosing</p>
+        `;
+
+        receiptItem.addEventListener('click', () => {
+            // Modalda ko'rsatiladigan ma'lumotlarni yangilash
+            user.src = receipt.meal.user.image;
+            modalMealCategory.textContent = `Retsept turi: ${receipt.meal.category.name}`; // Retsept turi
+            modalMealName.textContent = receipt.meal.name;
+            modalMealImage.src = receipt.meal.image;
+            modalProductName.textContent = `${receipt.product.name}`; // Mahsulot nomi
+            modalUserPhone.textContent = `Telefon: ${receipt.meal.user.phone}`; // Foydalanuvchi telefon raqami
+            modalUserEmail.textContent = `Email: ${receipt.meal.user.email}`; // Foydalanuvchi emaili
+            modalMealDescription.textContent = receipt.meal.description;
+            userName.textContent = receipt.meal.user.name;
+            modalMealVideo.src = receipt.meal.video; // Video manzili
+
+            receiptsList.style.display = 'none';
+            modal.style.display = 'flex';
+        });
+
+        receiptsList.appendChild(receiptItem);
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+        receiptsList.style.display = 'flex';
+    });
+}
+
+            let receipts = []; // Receiptlar ro'yxati
+            let categories = new Set(); // Kategoriyalarni saqlash uchun
+            let users = new Set(); // Foydalanuvchilarni saqlash uchun
+
+            // API dan receiptlar olish
+            async function fetchReceipts() {
+                const response = await fetch('/api/v1/receipts');
+                receipts = await response.json();
+                displayReceipts();
+            }
+            function updateFilters() {
+                categoryFilter.innerHTML = '<option value="">Barcha Kategoriyalar</option>';
+                categories.forEach(category => {
+                    categoryFilter.innerHTML += `<option value="${category}">${category}</option>`;
+                });
+
+                userFilter.innerHTML = '<option value="">Barcha Foydalanuvchilar</option>';
+                users.forEach(user => {
+                    userFilter.innerHTML += `<option value="${user}">${user}</option>`;
+                });
+            }
+
+            
+        document.addEventListener('DOMContentLoaded', loadReceipts);
+    function updateUserProfile(imageUrl, username) {
+    console.log(imageUrl)
+    const profileImage = document.getElementById('profile-image');
+    const userNameElement = document.getElementById('user-name1');
+    
+    profileImage.src = imageUrl; // Foydalanuvchi rasm manzili
+    userNameElement.textContent = username; // Foydalanuvchi ismi
+}
+
+
+    </script>
+</body>
+
+</html>
